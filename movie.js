@@ -15,7 +15,6 @@ function fetchHmdb() {
         .then((response) => response.json())
         .then((data) => {
             const movies = data.results;
-            console.log(movies);
             const movieCards = document.getElementById("movieCards");
             movieCards.innerHTML = "";
             movies.forEach((movie) => {
@@ -49,16 +48,18 @@ function fetchHmdb() {
                     const searchTerm = document
                         .querySelector("#searchWindow")
                         .value.toLowerCase();
+                    const filteredMovies = movies.filter((movie) =>
+                        movie.title.toLowerCase().includes(searchTerm)
+                    );
                     const movieCards = document.querySelectorAll(".movie-card");
                     movieCards.forEach((card) => {
-                        const titleElement = card.querySelector(".card-title");
-                        const titleText =
-                            titleElement.textContent.toLowerCase();
-                        if (titleText.includes(searchTerm)) {
-                            card.style.display = "block";
-                        } else {
-                            card.style.display = "none";
-                        }
+                        card.style.display = "none";
+                    });
+                    filteredMovies.forEach((movie) => {
+                        const card = document.querySelector(
+                            `[onclick="window.alert(${movie.id})"]`
+                        );
+                        card.style.display = "block";
                     });
                 });
         })
